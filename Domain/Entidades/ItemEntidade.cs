@@ -5,7 +5,7 @@ namespace Domain.Entidades
     public class ItemEntidade
     {
         public IdNumerico IdItem { get; private set; }
-        public string NomeItem { get; set; }
+        public string NomeItem { get; private set; }
         public string DescricaoDetalhada { get; private set; }
         public string? Imagem { get; private set; }
         public string? MatriculaAlteracao { get; private set; }

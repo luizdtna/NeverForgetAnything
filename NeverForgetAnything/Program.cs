@@ -2,6 +2,7 @@ using Application.Application;
 using Application.Interfaces;
 using Domain.Interface;
 using Infrastructure.Repository;
+using Microsoft.EntityFrameworkCore;
 
 internal class Program
 {
@@ -10,22 +11,20 @@ internal class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-
         builder.Services.AddControllers();
+
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+        builder.Services.AddDbContext<SqlConext>(options =>
+        {
+            var connection = builder.Configuration.GetConnectionString("WebApiDatabase");
+            options.UseMySql(connection, ServerVersion.AutoDetect(connection));
+        });
 
-        using IHost host = Host.CreateDefaultBuilder(args)
-            .ConfigureServices(services =>
-            {
-                //services.AddTransient<IExampleTransientService, ExampleTransientService>();
-                services.AddScoped<IItemApplication, ItemApplication>();
-                services.AddScoped<IItemRepository, ItemRepository>();
-                //services.AddSingleton<IExampleSingletonService, ExampleSingletonService>();
-                //services.AddTransient<ServiceLifetimeReporter>();
-            })
-            .Build();
+        //Add the service
+        builder.Services.AddScoped<IItemApplication, ItemApplication>();
+        builder.Services.AddScoped<IItemRepository, ItemRepository>();
 
         var app = builder.Build();
 

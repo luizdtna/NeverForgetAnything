@@ -4,7 +4,7 @@ namespace Application.Model
 {
     public class ItemResponseDTO
     {
-        public IdNumerico IdItem { get; set; }
+        public int IdItem { get; set; }
         public string NomeItem { get; set; }
         public string DescricaoDetalhada { get; set; }
         public string? Imagem { get; set; }

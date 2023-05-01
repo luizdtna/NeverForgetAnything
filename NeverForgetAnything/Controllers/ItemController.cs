@@ -1,7 +1,6 @@
 ﻿using Application.Interfaces;
+using Application.Model;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
-using System.Runtime.InteropServices;
 
 namespace WebAPI.Controllers
 {
@@ -16,16 +15,39 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ItemResponseDTO>))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+
+        public async Task<IActionResult> Get()
         {
-            return BadRequest();
+            var resultado = await _itemApplication.ListarAsync();
+
+            if (resultado.EhSucesso && (resultado.Objeto != null && resultado.Objeto.Any()))
+                    return Ok(resultado.Objeto);
+            else if (resultado.EhSucesso)
+                return NoContent();
+
+            return BadRequest(resultado.Erro);
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ItemResponseDTO))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Route("/{idItem}")]
-        public IActionResult Get(int idItem)
+        public async Task<IActionResult> Get(int idItem)
         {
-            return BadRequest();
+            var resultado = await _itemApplication.ObterAsync(idItem);
+
+            if (resultado.EhSucesso && resultado.Objeto != null)
+                return Ok(resultado.Objeto);
+            else if (resultado.EhSucesso)
+                return NoContent();
+
+            return BadRequest(resultado.Erro);
         }
 
     }
