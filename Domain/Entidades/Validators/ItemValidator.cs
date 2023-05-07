@@ -27,7 +27,7 @@ namespace Domain.Entidades.Validators
                 .WithMessage(ConstantesError.ERRO_LIMITE_CARACTERES.Replace("{0}", nameof(ItemEntidade.MatriculaAlteracao)).Replace("{1}", "200"));
 
             RuleFor(item => item.Imagem)
-                .MaximumLength(10)
+                .MaximumLength(200)
                 .When(item => item.Imagem != null)
                 .WithName(nameof(ItemEntidade.Imagem))
                 .WithErrorCode("Imagem_erro_caracter")
@@ -38,6 +38,8 @@ namespace Domain.Entidades.Validators
                 .WithName(nameof(ItemEntidade.DataAlteracao))
                 .WithErrorCode("Imagem_erro_naoNulo")
                 .WithMessage(ConstantesError.ERRO_PROPRIEDADE_NULA.Replace("{0}", nameof(ItemEntidade.DataAlteracao)));
+        
+            //TODO: Criar regra para IdLocalizacao
         }
     }
 

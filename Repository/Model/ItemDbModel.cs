@@ -1,5 +1,4 @@
-﻿using Domain.Core;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Infrastructure.Model
@@ -19,5 +18,7 @@ namespace Infrastructure.Model
         public string? MatriculaAlteracao { get; set; }
         [Column("dt_alteracao")]
         public DateTime DataAlteracao { get; set; }
+        [Column("id_localizacao")]
+        public int IdLocalizacao { get; set; }
     }
 }

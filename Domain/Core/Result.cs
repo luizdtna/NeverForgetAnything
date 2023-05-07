@@ -1,16 +1,12 @@
 ﻿using FluentValidation.Results;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace Domain.Core
 {
-    public class Result<T>
+    public class Result<T> : Result
     {
-        public bool EhSucesso { get; private set; }
         public T? Objeto { get; private set; }
-        public IEnumerable<ValidationFailure> Erro { get; private set; }
 
-        protected Result(bool sucesso, IEnumerable<ValidationFailure> erro, T? objeto = default) 
+        protected Result(bool sucesso, IEnumerable<ValidationFailure> erro, T? objeto = default) : base(sucesso, erro)   
         {
             EhSucesso = sucesso;
             Erro = erro;
@@ -21,18 +17,35 @@ namespace Domain.Core
         {
             return new Result<T>(true, Enumerable.Empty<ValidationFailure>(), objeto);
         }
-        public static Result<T> Ok()
+        public static new Result<T> Ok()
         {
-            return new Result<T>(true, Enumerable.Empty<ValidationFailure>());
+            return new Result<T>(true, Enumerable.Empty<ValidationFailure>(), default);
         }
-
-        public static Result<T> Error(List<ValidationFailure> erros)
+        public static new Result<T> Error(List<ValidationFailure> erros)
         {
             return new Result<T>(false, erros);
         }
+    }
 
+    public class Result
+    {
+        public bool EhSucesso { get; protected set; }
 
+        public IEnumerable<ValidationFailure> Erro { get; protected set; }
 
+        protected Result(bool sucesso, IEnumerable<ValidationFailure> erro)
+        {
+            EhSucesso = sucesso;
+            Erro = erro;
+        }
 
+        public static Result Ok()
+        {
+            return new Result(true, Enumerable.Empty<ValidationFailure>());
+        }
+        public static Result Error(List<ValidationFailure> erros)
+        {
+            return new Result(false, erros);
+        }
     }
 }

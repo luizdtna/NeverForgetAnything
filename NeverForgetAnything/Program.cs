@@ -1,8 +1,5 @@
-using Application.Application;
-using Application.Interfaces;
-using Domain.Interface;
-using Infrastructure.Repository;
-using Microsoft.EntityFrameworkCore;
+using CrossCutting;
+using Microsoft.OpenApi.Models;
 
 internal class Program
 {
@@ -15,16 +12,34 @@ internal class Program
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
-        builder.Services.AddDbContext<SqlConext>(options =>
+        builder.Services.AddSwaggerGen(options =>
         {
-            var connection = builder.Configuration.GetConnectionString("WebApiDatabase");
-            options.UseMySql(connection, ServerVersion.AutoDetect(connection));
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Scheme = "Bearer",
+                BearerFormat = "JWT",
+                In = ParameterLocation.Header,
+                Name = "Authorization",
+                Description = "Bearer Authentication with JWT Token",
+                Type = SecuritySchemeType.Http
+            });
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement 
+            {
+                {
+                new OpenApiSecurityScheme {
+                    Reference = new OpenApiReference {
+                        Id = "Bearer",
+                            Type = ReferenceType.SecurityScheme
+                    }
+                },
+                new List < string > ()
+                }
+            });
         });
 
-        //Add the service
-        builder.Services.AddScoped<IItemApplication, ItemApplication>();
-        builder.Services.AddScoped<IItemRepository, ItemRepository>();
+        builder.SetDbContext();
+        builder.Services.SetInjectionDependency();
+        builder.Services.SetAuthentication();
 
         var app = builder.Build();
 
@@ -37,7 +52,11 @@ internal class Program
 
         app.UseHttpsRedirection();
 
+        app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
         app.UseAuthorization();
+
+        app.UseAuthentication();
 
         app.MapControllers();
 

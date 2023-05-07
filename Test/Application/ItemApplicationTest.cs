@@ -29,7 +29,7 @@ namespace Test.Application
             //Assert
             Assert.That(resultado.EhSucesso, Is.True);
             Assert.NotNull(itemResponse);
-            Assert.That(itemResponse.IdItem.Valor, Is.EqualTo(1));
+            Assert.That(itemResponse.IdItem, Is.EqualTo(1));
             Assert.That(itemResponse.NomeItem, Is.EqualTo("Cadeira"));
             Assert.That(itemResponse.DescricaoDetalhada, Is.EqualTo("No canto inferior"));
             Assert.NotNull(itemResponse.Imagem);

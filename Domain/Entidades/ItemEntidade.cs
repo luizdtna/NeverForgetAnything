@@ -4,14 +4,15 @@ namespace Domain.Entidades
 {
     public class ItemEntidade
     {
-        public IdNumerico IdItem { get; private set; }
-        public string NomeItem { get; private set; }
-        public string DescricaoDetalhada { get; private set; }
-        public string? Imagem { get; private set; }
-        public string? MatriculaAlteracao { get; private set; }
-        public DateTime DataAlteracao { get; private set; }
-        //public Localizacao Localizacao { get; set; } 
+        public IdNumerico? IdItem { get; init; }
+        public string NomeItem { get; init; }
+        public string DescricaoDetalhada { get; init; }
+        public string? Imagem { get; init; }
+        public string? MatriculaAlteracao { get; init; }
+        public DateTime DataAlteracao { get; init; }
+        public int IdLocalizacao { get; init; } 
 
+        public ItemEntidade() { }
         public ItemEntidade(int idItem, string nomeItem, string descricaoDetalhada, string? imagem, string? matriculaAlteracao, DateTime dataAlteracao)
         {
             IdItem = new IdNumerico(idItem);
@@ -21,7 +22,5 @@ namespace Domain.Entidades
             MatriculaAlteracao = matriculaAlteracao;
             DataAlteracao = dataAlteracao;
         }
-
-        public ItemEntidade(int idItem) => IdItem = new IdNumerico(idItem);
     }
 }

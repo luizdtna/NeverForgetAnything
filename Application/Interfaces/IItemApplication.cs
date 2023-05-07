@@ -1,6 +1,5 @@
 ﻿using Application.Model;
 using Domain.Core;
-using Domain.Entidades;
 
 namespace Application.Interfaces
 {
@@ -8,5 +7,7 @@ namespace Application.Interfaces
     {
         public Task<Result<IEnumerable<ItemResponseDTO>>> ListarAsync();
         public Task<Result<ItemResponseDTO>> ObterAsync(int idItem);
+        public Task<Result> InserirAsync(ItemDTO itemDTO);
+        public Task<Result> AtualizarAsync(int idItem, ItemDTO itemDTO);
     }
 }
