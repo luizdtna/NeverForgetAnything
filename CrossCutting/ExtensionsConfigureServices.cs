@@ -16,7 +16,6 @@ namespace CrossCutting
     {
         public static void SetInjectionDependency(this IServiceCollection services)
         {
-            //Add the service
             services.AddScoped<IItemApplication, ItemApplication>();
             services.AddScoped<IItemRepository, ItemRepository>();
         }

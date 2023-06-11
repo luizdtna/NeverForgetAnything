@@ -17,7 +17,8 @@ namespace Infrastructure.Repository
 
         }
 
-        public DbSet<ItemDbModel> Item { get; set; }
+        public DbSet<ItemDbModel> Itens { get; set; }
+        public DbSet<LocalizacaoDbModel> Localizacoes { get; set; }
 
     }
 }

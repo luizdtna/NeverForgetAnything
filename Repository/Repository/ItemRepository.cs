@@ -15,7 +15,7 @@ namespace Infrastructure.Repository
 
         public async Task AtualizarItemAsync(ItemEntidade itemEntidade)
         {
-            ItemDbModel? item = await _sqlConext.Item.SingleOrDefaultAsync(obj => obj.IdItem == itemEntidade.IdItem.Valor);
+            ItemDbModel? item = await _sqlConext.Itens.SingleOrDefaultAsync(obj => obj.IdItem == itemEntidade.IdItem.Valor);
             if (item is not null)
             {
                 var itemDb = new
@@ -36,7 +36,7 @@ namespace Infrastructure.Repository
 
         public async Task<IEnumerable<ItemEntidade>> ListarItemAsync()
         {
-            IEnumerable<ItemDbModel> itensModel = await _sqlConext.Item.ToListAsync();
+            IEnumerable<ItemDbModel> itensModel = await _sqlConext.Itens.ToListAsync();
             return MapearDbModelParaEntidade(itensModel);
         }
 

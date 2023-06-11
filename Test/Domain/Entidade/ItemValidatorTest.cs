@@ -1,4 +1,5 @@
-﻿using Domain.Entidades;
+﻿using Domain.Core;
+using Domain.Entidades;
 using Domain.Entidades.Validators;
 using FluentValidation;
 
@@ -21,7 +22,7 @@ namespace Test.Domain.Entidade
         [Test]
         public void ValidarIdItemEntidade_ParametroValidos_Ok()
         {
-            var item = new ItemEntidade(1);
+            var item = new ItemEntidade { IdItem = new IdNumerico(1)};
             var validator1 = new ItemValidator();
 
             var result = validator1.Validate(item, options =>
